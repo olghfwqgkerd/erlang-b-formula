@@ -114,12 +114,32 @@ int main()
 		}
 	}
 
+	int onePercent = 0;
+	int detect = 0;
+	int loadingStatus = 0;
+	long double erlangBFormulaTemp = 0;
 	cout << endl;
 
 	for (long double i = a_min; i <= a_max; i += a_step)
 	{
 		A = i * V;
+
+		onePercent = ( ( a_max ) - 1 ) / 100;
+
+		if (detect == onePercent)
+		{
+			cout << loadingStatus << "%";
+			if (loadingStatus % 10 == 0)
+			{
+				cout << "........random checks: " << allanTemp << endl;
+			}
+			else cout << endl;
+			detect = firstn;
+			loadingStatus++;
+		}
+		else detect++;
+
 		output << i << "\t" << ErlangBFormula(A, V) << endl;
-		cout << i << "\t" << ErlangBFormula(A, V) << endl;
+		//cout << i << "\t" << ErlangBFormula(A, V) << endl;
 	}
 }
