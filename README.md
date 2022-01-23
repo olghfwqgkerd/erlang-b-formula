@@ -1,1 +1,1 @@
-# erlang-b-formula
+# Erlang B formula
