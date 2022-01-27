@@ -1,4 +1,10 @@
-﻿#include <iostream>
+﻿//   ██████  ██       ██████  ██   ██ ███████ ███████ ██     ██ ██     ██ ███████ ██████  ██████
+//  ██    ██ ██      ██       ██   ██ ██      ██      ██     ██ ██     ██ ██      ██   ██ ██   ██
+//  ██    ██ ██      ██   ███ ███████ ███████ █████   ██  █  ██ ██  █  ██ █████   ██████  ██   ██
+//  ██    ██ ██      ██    ██ ██   ██      ██ ██      ██ ███ ██ ██ ███ ██ ██      ██   ██ ██   ██
+//   ██████   ███████  ██████ ██   ██ ███████ ██       ███ ███   ███ ███  ███████ ██   ██ ██████	v.22.01.27
+
+#include <iostream>
 #include <fstream>
 
 using namespace std;
@@ -114,32 +120,30 @@ int main()
 		}
 	}
 
-	int onePercent = 0;
-	int detect = 0;
-	int loadingStatus = 0;
-	long double erlangBFormulaTemp = 0;
-	cout << endl;
+	double onePercent = ((a_max)-a_step) / 100;
+	double detect = 0;
+	float loadingStatus = 0;
+	float lastLoadingStatus = -1;
+	long double erlTemp = 0;
+	double oneComplPerc = 100 / ( (a_max - a_min) / a_step );
+
+	cout << endl << "Start of the calculation..." << endl;
 
 	for (long double i = a_min; i <= a_max; i += a_step)
 	{
 		A = i * V;
-
-		onePercent = ( ( a_max ) - 1 ) / 100;
-
-		if (detect == onePercent)
+		erlTemp = ErlangBFormula(A, V);
+		
+		if (static_cast<int>(loadingStatus) != lastLoadingStatus)
 		{
-			cout << loadingStatus << "%";
-			if (loadingStatus % 10 == 0)
-			{
-				cout << "........random checks: " << allanTemp << endl;
-			}
-			else cout << endl;
-			detect = firstn;
-			loadingStatus++;
+			cout << static_cast<int>(loadingStatus) << "%" << endl;
+			lastLoadingStatus = static_cast<int>(loadingStatus);
+			loadingStatus += oneComplPerc;
 		}
-		else detect++;
-
 		output << i << "\t" << ErlangBFormula(A, V) << endl;
-		//cout << i << "\t" << ErlangBFormula(A, V) << endl;
 	}
+
+	output.close();
+
+	cout << endl << "...opus magnum, its done. Program ended...";
 }
